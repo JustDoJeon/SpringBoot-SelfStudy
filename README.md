@@ -2,12 +2,23 @@
   <h3>Today I Learned </h3>
 ●  배운 내용 정리하고 공부하기 (2022-01-10 시작 )<br>
 
+<h3> 일반적인 웹 애플리케이션 계층 구조 </h3> 
+<br>
+![image](https://github.com/JustDoJeon/SpringBoot-SelfStudy/files/7854901/default.pdf)
+<br>
+● 컨트롤러: 웹 MVC의 컨트롤러 역할
+● 서비스: 핵심 비즈니스 로직 구현
+● 리포지토리: 데이터베이스에 접근, 도메인 객체를 DB에 저장하고 관리
+● 도메인: 비즈니스 도메인 객체, 예) 회원, 주문, 쿠폰 등등 주로 데이터베이스에 저장하고 관리됨
+
+<h3> 클래스 의존관계 </h3>
+![image](https://github.com/JustDoJeon/SpringBoot-SelfStudy/files/7854913/default.pdf)
+
 ## 
 ● 2022-01-12, 자바코드로 직접 스프링 빈 등록하기  <br>
 
-#목표 사진
-[spring.pdf](https://github.com/JustDoJeon/SpringBoot-SelfStudy/files/7854841/spring.pdf)
-
+# 현재 구조 <br>
+![image](https://github.com/JustDoJeon/SpringBoot-SelfStudy/files/7854841/spring.pdf)
 - 기존 회원 서비스와 회원 레포지토리의 @Service, @Repository, @AutoWired 어노테이션을 제거하고 진행한다. <br>
 
 ```
@@ -16,3 +27,7 @@
 2) SpringConfig 클래스를 생성하여 @Configuration 어노테이션으로 명시하고 @Bean 을 통해 직접 빈 객체를 생성하는 메소드를 만든다. 
 
 ```
+
+
+<br>
+정리내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
