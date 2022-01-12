@@ -24,6 +24,7 @@
 ● 2022-01-12, 자바코드로 직접 스프링 빈 등록하기  <br>
 
 <h3> 현재 구조 </h3>
+
 ![image](https://user-images.githubusercontent.com/52389219/149151008-bfcb8558-0378-417a-b3fc-aa79169166d9.PNG)
 - 기존 회원 서비스와 회원 레포지토리의 @Service, @Repository, @AutoWired 어노테이션을 제거하고 진행한다. <br>
 
