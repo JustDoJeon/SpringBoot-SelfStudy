@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-@Repository
+
 public class MemoryMemberRepository implements MemberRepository {
 
     //회원 저장할때 어디 해야할것 아님
@@ -14,7 +14,7 @@ public class MemoryMemberRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        member.setId(++sequence);
+        member.setId(++sequence); //DB에 세이브되면 자동으로 들어가게끔 해놓은거였음
         store.put(member.getId(),member);
         return member;
     }
