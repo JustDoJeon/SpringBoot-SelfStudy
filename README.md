@@ -52,14 +52,14 @@
 
 <h2> 2022-01-18 학습내용 정리 </h2>
 
-순수 jdbc 사용
+<h3>순수 jdbc 사용 (난 왜 이걸 쓰면서 불편함을 못느꼈을까... ) </h3>
 
+```
 1. build.gradl에 라이브러리 추가 
-``` 
+
 implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
 runtimeOnly 'com.h2database:h2'
-<br>
 
 2. application.properties에 경로 추가
 
