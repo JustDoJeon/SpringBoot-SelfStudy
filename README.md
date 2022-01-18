@@ -50,29 +50,39 @@
 
 ```
 
-<h2> 2022-01-12 학습내용 정리 </h2>
-순수 jdbc 사용
-1. build.gradl에 라이브러리 추가 
--> 
-implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-runtimeOnly 'com.h2database:h2'
+<h2> 2022-01-18 학습내용 정리 </h2>
 
-2.application.properties에 경로 추가
+순수 jdbc 사용
+
+1. build.gradl에 라이브러리 추가 
+``` 
+implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+runtimeOnly 'com.h2database:h2'
+<br>
+
+2. application.properties에 경로 추가
+
 spring.datasource.url=jdbc:h2:~/test
+
 spring.datasource.driver-class-name=org.h2.Driver
-원랜 아이디비번 치는데 h2 디비라서 스킵 
+
+(원랜 아이디비번 치는데 h2 디비라서 스킵) 
 + springframework.jdbc 가 import 되지않아서 gradle 다시 확인했는데 있어서 ide 툴을 재부팅하니깐 적용되었다! 다행히 10분날림 !
 
-jdbcMemberRepository 클래스를 생성해서 고전의 방법으로 쿼리 작성하며 커넥션을 시도하고 반환하는 작업을 해보았다
+jdbcMemberRepository 클래스를 생성해서 고전의 방법으로 쿼리 작성하며 커넥션을 시도하고 반환하는 작업을 해보았다.
+
 이제 실행하면 될까? 정답은 아니다 Config를 맞춰줘야한다. 
+
 Spring Config 파일에 기존의 메모리멤버레포지토리 대신 jdbc레포지로 바꿔줌
 
 돌렸더니 화이트라벨... 
+
 원인은 jdbc:h2:tcp://localhost/~/test 로 설정을 줘야하고
+
 부트 2.4 버전부터는 spring.datasource.username=sa 를 설정파일(application.properties)에 추가해야한다고 한다.
 
-----
-
+```
 
 
 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
