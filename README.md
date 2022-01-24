@@ -1,7 +1,7 @@
 <h1> Spring Boot - Self Study 
   <h3>Today I Learned </h3>
 ●  배운 내용 정리하고 공부하기 (2022-01-10 시작 )<br>
-
+● 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
 
 <h2> 2022-01-12 학습내용 정리 </h2>
 <h3> 일반적인 웹 애플리케이션 계층 구조 </h3> 
@@ -83,6 +83,64 @@ Spring Config 파일에 기존의 메모리멤버레포지토리 대신 jdbc레�
 부트 2.4 버전부터는 spring.datasource.username=sa 를 설정파일(application.properties)에 추가해야한다고 한다.
 
 ```
+
+
+<h2> 2022-01-19 공부 정리 </h2>
+
+<h3> 스프링 통합 테스트 </h3>
+
+```
+1. 테스트를 위한 클래스와 
+@SpringBootTest
+@Transactional 추가
+
+
+2. 테스트에 필요한 객체 주입, 테스트니깐 그냥 필드 주입 사용
+
+3. 위에 필드 주입과 기존 테스트 코드를 넣고 실행하니깐 SpringConfig 다 올라옴 !
+
+4. @Transactional을 달면 테스트케이스에서 테스트를 실행할때 db 넣었던데이터가 반영이 안되고 다 roll back 됨 
+-> 다음 테스트를 또 반복해서 할 수 있다 ( 중복 데이터 생길 일 없으니깐 ) 
+
+@SpringBootTest : 스프링 컨테이너와 테스트를 함께 실행한다
+
+* @Transactional : 테스트 케이스에 이 애노테이션이 있으면, 테스트 시작 전에 트랜잭션을 시작하고, 테스트 완료 후에 항상 롤백한다. 
+이렇게 하면 DB에 데이터가 남지 않으므로 다음 테스트에 영향을 주지 않는다.
+
++ 순수한 단위테스트가 좋은 테스트일 확률이 높다. 스프링 띄어서 하는 통합테스트 보다...!
+```
+<h2> 2022-01-24 공부 정리 </h2>
+
+<h3> 스프링 JdbcTemplate </h3>
+```
+1. JdbcTemplateMemberRepository 클래스 만들고 여기 MemberRepository 인터페이스를 구현
+
+2. DataSource를 주입받아서 생성자 생성
+
+3. 생성자가 딱 ! 1개일때 @AutoWired 생략가능!!
+
+4. 조회하는 메소드인 findById를 구현할때, return jdbcTemplate.query(매개변수1,매개변수2);
+   작성했는데, 매개변수 1 : 실행할 sql 쿼리를 넣어주면 되고 
+   매개변수 2에는 memberRowMapper()를 넣어주면된다. 
+   이 매개변수2는 jdbc 사용시 결과를 반환해주는 resultSet이라고 생각하면 된다. 
+
+5. JdbcTemplateMemberRepoisory 클래스의 save를 구현하는데 SimpleJdbcInsert 클래스를 사용하면 
+쿼리를 쓸 필요가 없다고 하셨다. document를 보면서 하면 충분히 구현할수 있는 범위같다. 
+insert할때 mvc에서 xml을 기계적으로 이용했는데 이런 방법이 있는것도 알게되었다.
+위 클래스 객체의 메소드에 테이블 이름과 키 칼럼을 넣고 맵 형식의 파라미터에 데이터를 읽어서 사용하는 방식이다. 
+
+6. 다른 메소드들 (CRUD 구현)도 save와 동일한 방법을 사용하거나 List<Member> 형식으로 반환된 값을 리턴하는 형식으로 사용한다. 
+
+7. SpringConfig에 jdbcTemplate 관련 설정으로 빈 등록해놔야함 ! 
+
+8.
+
+<h3> 블로그에 추가 게시하며 공부할 것 </h3>
+
+```
+자바 람다 표현식
+```
+
 
 
 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
