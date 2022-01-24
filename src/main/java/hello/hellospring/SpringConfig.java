@@ -1,37 +1,51 @@
 package hello.hellospring;
 
-import hello.hellospring.repository.JdbcMemberRepository;
-import hello.hellospring.repository.JdbcTemplateMemberRepository;
-import hello.hellospring.repository.MemberRepository;
-import hello.hellospring.repository.MemoryMemberRepository;
+import hello.hellospring.repository.*;
 import hello.hellospring.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.sql.DataSource;
 
 @Configuration
 public class SpringConfig {
 
     //jdbc 추가하면서 추가
-    private DataSource dataSource;
+//    private DataSource dataSource;
+
+//    @Autowired
+//    public  SpringConfig(DataSource dataSource){
+//        this.dataSource = dataSource;
+//    }
+
+    //jpa 사용시 추가
+    private EntityManager em;
+
+//    //생성자 주입 안쓸땐
+//    @PersistenceContext
+//    private  EntityManager em;
 
     @Autowired
-    public  SpringConfig(DataSource dataSource){
-        this.dataSource = dataSource;
+    public SpringConfig(EntityManager em){
+        this.em = em;
     }
+
 
     @Bean
     public MemberService memberService() {
         return new MemberService(memberRepository());
     }
 
+
     @Bean
     public MemberRepository memberRepository() {
 //        return new MemoryMemberRepository();
 //        return new JdbcMemberRepository(dataSource);
-        return new JdbcTemplateMemberRepository(dataSource);
+//        return new JdbcTemplateMemberRepository(dataSource);
+        return new JpaMemberRepository(em);
     }
 
 
