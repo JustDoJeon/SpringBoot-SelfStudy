@@ -140,7 +140,64 @@ insert할때 mvc에서 xml을 기계적으로 이용했는데 이런 방법이 �
 ```
 자바 람다 표현식
 ```
+<br>
+
+<h2> 2022-01-25 공부 정리 </h2>
+
+<h3> JPA </h3>
+드디어 쿼리를 사용하지않고 데이터 매핑을 한다는 JPA를 배우게되었다. 
+<BR>
+요약 강의라 깊은 내용은 아니지만 이번기회에 맛을 보고 깊게 공부해 가야겠다.
 
 
+<h4> JPA 간단 설명  </h4>
+● JPA는 기존의 반복 코드는 물론이고, 기본적인 SQL도 JPA가 직접 만들어서 실행해준다. <br>
+● JPA를 사용하면, SQL과 데이터 중심의 설계에서 객체 중심의 설계로 패러다임을 전환을 할 수 있다.<br>
+● JPA를 사용하면 개발 생산성을 크게 높일 수 있다 <br>
 
-정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
+1...스프링 부트에 jpa 환경설정 세팅하기 
+1) build.gradle에 jpa 관련 라이브러리 추가하고 원래 쓰던 jdbc는 주석을 해놓기로 한다 
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+ 	runtimeOnly 'com.h2database:h2'
+}
+
+2) application.properties 파일 
+spring.jpa.show-sql=true      
+-> jpa가 날리는 sql 볼수있음
+spring.jpa.hibernate.ddl-auto=none
+-> jpa시 객체를 보고 자동으로 테이블을 만들어주는데 현재는 테이블있으니깐  none으로 설정 
+
+여기서, external library에 jpa 라이브러리와 hibernate 라이브러리 들어온것 확인
+
+jpa는 인터페이스를 제공하는것인데 구현기술이 여러 벤더가 있음
+구현은 여러 업체가 한다고 생각하면 된다. (어떤 업체 구현이 성능이 좋더라~~)
+
+본격 실습
+1) Member 테이블에 @Entity 어노테이션 추가
+2) @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  // GeneratedValue를 통해 DB가 알아서 시퀀스 생성해서 추가되듯이 사용한다.
+    private Long id; //데이터 구분용 
+3)JpaMemberRepository를 생성하고 implements 를 통해 메소드를 구현한다.
+!! 이때, EntityManager를 생성하는데 JPA는 이 클래스의 객체를 통해 모든 동작을 한다고 한다. (주입해서 사용)
+
+4) 위 클래스의 소스
+-> pk를 사용하지않는 쿼리의 경우 JPQL을 사용해야한다 하지만 스프링 데이터 JPA를 사용하면 이마저도 사용하지 않아도된다고 한다. 공부할게 많은것같다 ㅎㅎ...
+
+5) JPA를 사용하려면 항상 Transaction이 필요 Service단 메소드에 @Transaction 추가!
+
+
+  
+
+📕 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
+
+# 🏔 목표
+# ⛲️ 개요
+# 💻 언어
+# ✏️ 배울 개념
+# 📐 방법
+## 📕 참고할 만한 책
