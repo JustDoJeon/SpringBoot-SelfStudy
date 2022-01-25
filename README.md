@@ -226,7 +226,40 @@ XML 기반 엔티티 매핑 지원
 
 
 
+<h2> 2022-01-26 공부 정리 </h2>
+<h3> AOP </h3>
 
+AOP가 필요한 상황
+
+- 모든 메소드의 호출 시간을 측정하고 싶다면? <br>
+- 공통 관심 사항(cross-cutting concern) vs 핵심 관심 사항(core concern) <br>
+- 회원 가입 시간, 회원 조회 시간을 측정하고 싶다면? <br>
+
+필요한 상황 만들기
+```
+JOIN에 걸리는 시간을 System.currentTimeMilss();과 try-catch를 이용해서 구하는 상황을 만들었다.
+그런데, 모든 메소드에 적용하려면.. try-catch 를 공통메서드로 만들수도 없고, 핵심로직과 섞여있으니깐 유지보수가 어렵다.
+시간 측정 로직 변경하려면 모든 로직 다 찾아야하니깐 빡세다.
+그래서 공통 관심 사항과 핵심 관심 사항을 나눌수있고 이것을 AOP를 적용하면서 해결가능하다.
+  
+```
+
+실습
+```
+aop 패키지와 함께 TimeTraceAop 클래스를 작성한다.
+이 클래스는 SpringConfig를 통해 Bean 으로 등록해줘야한다 (해당 클래스에 @Component 라고 명시해도되긴함)
+그리고 사용하기위해 구현한 메소드에 @Around("execution(* 패키지명..*(..))") 
+이때 SpringConfig를 통해 bean으로 등록한 TimeTraceAop가 순환참조가 나왔는데
+원인은 @Around를 통해 자기 자신도 참조하기 때문이다.
+그래서 @Around("execution(* hello.hellospring..*(..)) && !target(hello.hellospring.SpringConfig)")
+이렇게 써야 순환참조가 나타나지 않는다 !
+강의자료에서 사진 추가할것 !
+
+jointPoint 에 대한 추가 학습이 필요할것 같다.
+```
+
+
+블로그 추가 공부해야할 내용 : try-catch-finally , JointPoint
 
 📕 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
 
