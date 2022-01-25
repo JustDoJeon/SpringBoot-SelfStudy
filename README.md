@@ -191,7 +191,42 @@ jpa는 인터페이스를 제공하는것인데 구현기술이 여러 벤더가
 5) JPA를 사용하려면 항상 Transaction이 필요 Service단 메소드에 @Transaction 추가!
 
 
-  
+ <h2> 2022-01-25 공부 정리 </h2>
+
+<h3> 스프링 DATA JPA</h3> 
+특징 by spring document
+```
+Spring 및 JPA 기반의 리포지토리 구축을 위한 정교한 지원
+
+Querydsl 술어 지원 및 이에 따른 유형 안전 JPA 쿼리
+
+도메인 클래스의 투명한 감사
+
+페이지 매김 지원, 동적 쿼리 실행, 맞춤형 데이터 액세스 코드 통합 기능
+
+@Query부트스트랩 시간 에 주석 이 달린 쿼리의 유효성 검사
+
+XML 기반 엔티티 매핑 지원
+
+@EnableJpaRepositories을 도입하여 JavaConfig 기반 저장소 구성 
+```
+
+
+본격 실습
+1. SpringDataJpaMemberRepository 인터페이스 생성 및 JpaRepository<> ,MeberRepository를 다중상속받음 (인터페이스가 인터페이스 받는 구조)
+2. SpringDataJpa가 이 클래스를 구현체로 만들어서 등록을 해줌 
+3. 그러므로 SpringConfig 에서 빈등록 하기만 하면됨..
+4. 자료 그림 꼭 참고 
+5. JpaRepository를 보면 기본 메소드 들이 다 제공이됨 
+
+
++ 실무에선 JPA와 스프링 데이터 JPA를 기본으로 사용하고, 복잡한 동적쿼리는 Querydsl이라는 라이브러리를 사용한다고 한다.
+이 조합으로 해결하기 어려운 쿼리는 jpa가 제공하는 네이티브 쿼리를 사용하거나, JdbcTemplate을 같이 사용한다고 한다.
+
+
+
+
+
 
 📕 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
 
