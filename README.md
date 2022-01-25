@@ -140,7 +140,132 @@ insert할때 mvc에서 xml을 기계적으로 이용했는데 이런 방법이 �
 ```
 자바 람다 표현식
 ```
+<br>
+
+<h2> 2022-01-25 공부 정리 </h2>
+
+<h3> JPA </h3>
+드디어 쿼리를 사용하지않고 데이터 매핑을 한다는 JPA를 배우게되었다. 
+<BR>
+요약 강의라 깊은 내용은 아니지만 이번기회에 맛을 보고 깊게 공부해 가야겠다.
+
+
+<h4> JPA 간단 설명  </h4>
+● JPA는 기존의 반복 코드는 물론이고, 기본적인 SQL도 JPA가 직접 만들어서 실행해준다. <br>
+● JPA를 사용하면, SQL과 데이터 중심의 설계에서 객체 중심의 설계로 패러다임을 전환을 할 수 있다.<br>
+● JPA를 사용하면 개발 생산성을 크게 높일 수 있다 <br>
+
+1...스프링 부트에 jpa 환경설정 세팅하기 
+1) build.gradle에 jpa 관련 라이브러리 추가하고 원래 쓰던 jdbc는 주석을 해놓기로 한다 
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+ 	runtimeOnly 'com.h2database:h2'
+}
+
+2) application.properties 파일 
+spring.jpa.show-sql=true      
+-> jpa가 날리는 sql 볼수있음
+spring.jpa.hibernate.ddl-auto=none
+-> jpa시 객체를 보고 자동으로 테이블을 만들어주는데 현재는 테이블있으니깐  none으로 설정 
+
+여기서, external library에 jpa 라이브러리와 hibernate 라이브러리 들어온것 확인
+
+jpa는 인터페이스를 제공하는것인데 구현기술이 여러 벤더가 있음
+구현은 여러 업체가 한다고 생각하면 된다. (어떤 업체 구현이 성능이 좋더라~~)
+
+본격 실습
+1) Member 테이블에 @Entity 어노테이션 추가
+2) @Id @GeneratedValue(strategy = GenerationType.IDENTITY)  // GeneratedValue를 통해 DB가 알아서 시퀀스 생성해서 추가되듯이 사용한다.
+    private Long id; //데이터 구분용 
+3)JpaMemberRepository를 생성하고 implements 를 통해 메소드를 구현한다.
+!! 이때, EntityManager를 생성하는데 JPA는 이 클래스의 객체를 통해 모든 동작을 한다고 한다. (주입해서 사용)
+
+4) 위 클래스의 소스
+-> pk를 사용하지않는 쿼리의 경우 JPQL을 사용해야한다 하지만 스프링 데이터 JPA를 사용하면 이마저도 사용하지 않아도된다고 한다. 공부할게 많은것같다 ㅎㅎ...
+
+5) JPA를 사용하려면 항상 Transaction이 필요 Service단 메소드에 @Transaction 추가!
+
+
+ <h2> 2022-01-25 공부 정리 </h2>
+
+<h3> 스프링 DATA JPA</h3> 
+특징 by spring document
+```
+Spring 및 JPA 기반의 리포지토리 구축을 위한 정교한 지원
+
+Querydsl 술어 지원 및 이에 따른 유형 안전 JPA 쿼리
+
+도메인 클래스의 투명한 감사
+
+페이지 매김 지원, 동적 쿼리 실행, 맞춤형 데이터 액세스 코드 통합 기능
+
+@Query부트스트랩 시간 에 주석 이 달린 쿼리의 유효성 검사
+
+XML 기반 엔티티 매핑 지원
+
+@EnableJpaRepositories을 도입하여 JavaConfig 기반 저장소 구성 
+```
+
+
+본격 실습
+1. SpringDataJpaMemberRepository 인터페이스 생성 및 JpaRepository<> ,MeberRepository를 다중상속받음 (인터페이스가 인터페이스 받는 구조)
+2. SpringDataJpa가 이 클래스를 구현체로 만들어서 등록을 해줌 
+3. 그러므로 SpringConfig 에서 빈등록 하기만 하면됨..
+4. 자료 그림 꼭 참고 
+5. JpaRepository를 보면 기본 메소드 들이 다 제공이됨 
+
+
++ 실무에선 JPA와 스프링 데이터 JPA를 기본으로 사용하고, 복잡한 동적쿼리는 Querydsl이라는 라이브러리를 사용한다고 한다.
+이 조합으로 해결하기 어려운 쿼리는 jpa가 제공하는 네이티브 쿼리를 사용하거나, JdbcTemplate을 같이 사용한다고 한다.
 
 
 
-정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
+
+<h2> 2022-01-26 공부 정리 </h2>
+<h3> AOP </h3>
+
+AOP가 필요한 상황
+
+- 모든 메소드의 호출 시간을 측정하고 싶다면? <br>
+- 공통 관심 사항(cross-cutting concern) vs 핵심 관심 사항(core concern) <br>
+- 회원 가입 시간, 회원 조회 시간을 측정하고 싶다면? <br>
+
+필요한 상황 만들기
+```
+JOIN에 걸리는 시간을 System.currentTimeMilss();과 try-catch를 이용해서 구하는 상황을 만들었다.
+그런데, 모든 메소드에 적용하려면.. try-catch 를 공통메서드로 만들수도 없고, 핵심로직과 섞여있으니깐 유지보수가 어렵다.
+시간 측정 로직 변경하려면 모든 로직 다 찾아야하니깐 빡세다.
+그래서 공통 관심 사항과 핵심 관심 사항을 나눌수있고 이것을 AOP를 적용하면서 해결가능하다.
+  
+```
+
+실습
+```
+aop 패키지와 함께 TimeTraceAop 클래스를 작성한다.
+이 클래스는 SpringConfig를 통해 Bean 으로 등록해줘야한다 (해당 클래스에 @Component 라고 명시해도되긴함)
+그리고 사용하기위해 구현한 메소드에 @Around("execution(* 패키지명..*(..))") 
+이때 SpringConfig를 통해 bean으로 등록한 TimeTraceAop가 순환참조가 나왔는데
+원인은 @Around를 통해 자기 자신도 참조하기 때문이다.
+그래서 @Around("execution(* hello.hellospring..*(..)) && !target(hello.hellospring.SpringConfig)")
+이렇게 써야 순환참조가 나타나지 않는다 !
+강의자료에서 사진 추가할것 !
+
+jointPoint 에 대한 추가 학습이 필요할것 같다.
+```
+
+
+블로그 추가 공부해야할 내용 : try-catch-finally , JointPoint
+
+📕 정리 내용은 인프런의 김영한님의 강의를 통해 정리되었습니다. 
+
+# 🏔 목표
+# ⛲️ 개요
+# 💻 언어
+# ✏️ 배울 개념
+# 📐 방법
+## 📕 참고할 만한 책
